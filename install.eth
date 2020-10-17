@@ -1,0 +1,13 @@
+module =
+
+let pub name = "endian"
+let pub main = "lib.so"
+
+let pub build! =
+  let ether_flags = IO.shell "pkg-config ether --cflags" |> String.chop in
+  system "gcc -shared -fpic -olib.so lib.c %d" ether_flags
+
+let pub post_install! =
+  system "rm -fv lib.so"
+
+end
