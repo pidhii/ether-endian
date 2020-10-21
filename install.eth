@@ -5,7 +5,8 @@ let pub main = "lib.so"
 
 let pub build! =
   let ether_flags = IO.shell "pkg-config ether --cflags" |> String.chop in
-  system "gcc -shared -fpic -olib.so lib.c %d" ether_flags
+  unless system "gcc -shared -fpic -olib.so lib.c {ether_flags}" == 0
+    then raise Build_error
 
 let pub post_install! =
   system "rm -fv lib.so"
