@@ -1,9 +1,10 @@
+let io = require 'io'
 
 let pub name = "endian"
 let pub main = "lib.so"
 
 let pub build! =
-  let ether_flags = IO.shell "pkg-config ether --cflags" |> String.chomp
+  let ether_flags = io.shell "pkg-config ether --cflags"
   unless system "gcc -shared -fpic -olib.so lib.c {ether_flags}" == 0
   then raise Build_error
 
